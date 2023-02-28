@@ -1,4 +1,10 @@
-import { Stats, OrbitControls, useGLTF, Environment } from '@react-three/drei'
+import {
+  Stats,
+  OrbitControls,
+  useGLTF,
+  Environment,
+  Html
+} from '@react-three/drei'
 import { Canvas, useFrame, useHelper } from '@react-three/fiber'
 import { useRef, useState } from 'react'
 import { useControls, button } from 'leva'
@@ -6,10 +12,85 @@ import { Vector3, CameraHelper } from 'three'
 import annotations from './annotations.json'
 import Camera from './Camera'
 
-function Arena({ controls, lerping, setLerping }) {
+function Arena({ controls, lerping, setLerping, to, target }) {
   const { scene } = useGLTF(
     'https://cdn.jsdelivr.net/gh/Sean-Bradley/React-Three-Fiber-Boilerplate@camera/public/models/collision-world.glb'
   )
+  //   const [to, setTo] = useState(new Vector3(10, 10, 10))
+  //   const [target, setTarget] = useState()
+
+  useFrame(({ camera }, delta) => {
+    if (lerping) {
+      camera.position.lerp(to, delta * 0.9, 0.2)
+      controls.current.target.lerp(target, delta * 0.9, 0.2)
+    }
+  })
+
+  return (
+    <>
+      <primitive
+        object={scene.children[0]}
+        castShadow
+        receiveShadow
+        material-envMapIntensity={0.4}
+        onDoubleClick={(e) => {
+          to(e.camera.position.clone())
+          target(e.intersections[0].point.clone())
+          setLerping(true)
+        }}
+      />
+    </>
+  )
+}
+
+function Annotations({ selected, gotoAnnotation }) {
+  return (
+    <>
+      {annotations.map((a, i) => {
+        return (
+          <Html key={i} position={[a.lookAt.x, a.lookAt.y, a.lookAt.z]}>
+            <svg
+              height="34"
+              width="34"
+              transform="translate(-16 -16)"
+              style={{ cursor: 'pointer' }}>
+              <circle
+                cx="17"
+                cy="17"
+                r="16"
+                stroke="white"
+                strokeWidth="2"
+                fill="rgba(0,0,0,.66)"
+                onClick={() => gotoAnnotation(i)}
+              />
+              <text
+                x="12"
+                y="22"
+                fill="white"
+                fontSize={17}
+                fontFamily="monospace"
+                style={{ pointerEvents: 'none' }}>
+                {i + 1}
+              </text>
+            </svg>
+            {a.description && i === selected && (
+              <div
+                id={'desc_' + i}
+                className="annotationDescription"
+                dangerouslySetInnerHTML={{ __html: a.description }}
+              />
+            )}
+          </Html>
+        )
+      })}
+    </>
+  )
+}
+
+export default function App() {
+  const ref = useRef()
+  const [lerping, setLerping] = useState(false)
+  const [selected, setSelected] = useState(-1)
   const [to, setTo] = useState(new Vector3(10, 10, 10))
   const [target, setTarget] = useState(new Vector3(0, 1, 0))
 
@@ -42,33 +123,12 @@ function Arena({ controls, lerping, setLerping }) {
     return _buttons
   })
 
-  useFrame(({ camera }, delta) => {
-    if (lerping) {
-      camera.position.lerp(to, delta)
-      controls.current.target.lerp(target, delta)
-    }
-  })
-
-  return (
-    <>
-      <primitive
-        object={scene.children[0]}
-        castShadow
-        receiveShadow
-        material-envMapIntensity={0.4}
-        onDoubleClick={(e) => {
-          setTo(e.camera.position.clone())
-          setTarget(e.intersections[0].point.clone())
-          setLerping(true)
-        }}
-      />
-    </>
-  )
-}
-
-export default function App() {
-  const ref = useRef()
-  const [lerping, setLerping] = useState(false)
+  function gotoAnnotation(idx) {
+    setTo(annotations[idx].position)
+    setTarget(annotations[idx].lookAt)
+    setSelected(idx)
+    setLerping(true)
+  }
 
   return (
     <Canvas
@@ -93,7 +153,15 @@ export default function App() {
         background
       />
       <OrbitControls ref={ref} target={[0, 1, 0]} />
-      <Arena controls={ref} lerping={lerping} setLerping={setLerping} />
+      <Arena
+        controls={ref}
+        lerping={lerping}
+        // setLerping={setLerping}
+        to={to}
+        target={target}
+      />
+      <Annotations selected={selected} gotoAnnotation={gotoAnnotation} />
+
       <Stats />
     </Canvas>
   )
