@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { useControls, button } from 'leva'
 import { Vector3, CameraHelper } from 'three'
 import annotations from './annotations.json'
+import Camera from './Camera'
 
 function Arena({ controls, lerping, setLerping }) {
   const { scene } = useGLTF(
@@ -71,10 +72,11 @@ export default function App() {
 
   return (
     <Canvas
-      camera={{ position: [10, 10, 10] }}
+      //   camera={{ position: [10, 10, 10] }}
       onPointerDown={() => setLerping(false)}
       onWheel={() => setLerping(false)}
       shadows>
+      <Camera />
       <directionalLight
         intensity={1}
         castShadow

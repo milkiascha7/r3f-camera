@@ -1,7 +1,15 @@
-import React from 'react'
+import { PerspectiveCamera, useHelper } from '@react-three/drei'
+import React, { useRef } from 'react'
+import { CameraHelper } from 'three'
 
 const Camera = () => {
-  return <div>Camera</div>
+  const cameraRef = useRef()
+  useHelper(cameraRef, CameraHelper, 'red')
+  return (
+    <>
+      <PerspectiveCamera position={[10, 10, 10]} makeDefault ref={cameraRef} />
+    </>
+  )
 }
 
 export default Camera
