@@ -98,29 +98,29 @@ export default function App() {
     console.log('creating buttons')
 
     // using forEach
-    // const _buttons = {}
-    // annotations.forEach((a) => {
-    //   _buttons[a.title] = button(() => {
-    //     setTo(a.position)
-    //     setTarget(a.lookAt)
-    //     setLerping(true)
-    //   })
-    // })
-    // return _buttons
+    const _buttons = {}
+    annotations.forEach((a) => {
+      _buttons[a.title] = button(() => {
+        setTo(a.position)
+        setTarget(a.lookAt)
+        setLerping(true)
+      })
+    })
+    return _buttons
 
     // using reduce
-    const _buttons = annotations.reduce(
-      (acc, a) =>
-        Object.assign(acc, {
-          [a.title]: button(() => {
-            setTo(a.position)
-            setTarget(a.lookAt)
-            setLerping(true)
-          })
-        }),
-      {}
-    )
-    return _buttons
+    // const _buttons = annotations.reduce(
+    //   (acc, a) =>
+    //     Object.assign(acc, {
+    //       [a.title]: button(() => {
+    //         setTo(a.position)
+    //         setTarget(a.lookAt)
+    //         setLerping(true)
+    //       })
+    //     }),
+    //   {}
+    // )
+    // return _buttons
   })
 
   function gotoAnnotation(idx) {
@@ -152,7 +152,7 @@ export default function App() {
         files="https://cdn.jsdelivr.net/gh/Sean-Bradley/React-Three-Fiber-Boilerplate@camera/public/img/drakensberg_solitary_mountain_1k.hdr"
         background
       />
-      <OrbitControls ref={ref} target={[0, 1, 0]} />
+      <OrbitControls ref={ref} target={[0, 1, 0]} enableZoom={false} />
       <Arena
         controls={ref}
         lerping={lerping}
