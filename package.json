@@ -1,40 +1,23 @@
 {
-  "name": "react-three-fiber-boilerplate",
+  "name": "react-three-fiber-boilerplate-camera",
   "version": "1.0.0",
-  "description": "",
+  "description": "camera movement",
   "keywords": [],
   "main": "src/index.jsx",
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.10.15",
-    "@mui/material": "^5.10.15",
-    "@react-three/drei": "^9.29.1",
-    "@react-three/fiber": "^8.7.2",
-    "gsap": "^3.11.4",
-    "leva": "^0.9.31",
-    "r3f-perf": "^6.5.0",
+    "@react-three/drei": "9.83.9",
+    "@react-three/fiber": "8.14.5",
+    "@tweenjs/tween.js": "21.0.0",
+    "leva": "0.9.35",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scripts": "5.0.1",
-    "three": "0.148.0"
+    "three": "0.157.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "r3f-pack start",
+    "build": "r3f-pack build"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "r3f-pack": "^2.0.4"
   }
 }

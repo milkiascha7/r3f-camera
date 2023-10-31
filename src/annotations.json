@@ -4,19 +4,17 @@
     "description": "<p>Looking Down from Above</p>",
     "position": {
       "x": 0,
-      "y": 40,
+      "y": 25,
       "z": 0
     },
     "lookAt": {
-      "x": 0,
+      "x": 1,
       "y": 0,
       "z": 0
     }
   },
   {
     "title": "View B",
-    "description": "<p>Looking from insider</p>",
-
     "position": {
       "x": 8,
       "y": -1.5,
@@ -30,17 +28,15 @@
   },
   {
     "title": "View C",
-    "description": "<p>Second Looking Down from Above</p>",
-
     "position": {
-      "x": 8,
-      "y": 5,
-      "z": 11
+      "x": 5,
+      "y": 5.11,
+      "z": 12
     },
     "lookAt": {
-      "x": 8,
-      "y": 4.9,
-      "z": 11
+      "x": 5.1,
+      "y": 0,
+      "z": 12
     }
   }
 ]
